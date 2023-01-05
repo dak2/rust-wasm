@@ -17,4 +17,5 @@ RUN set -ex \
     && rm -rf /var/lib/apt/lists/* \
     && mkdir /app
 
+ENV USER=root
 WORKDIR /app
