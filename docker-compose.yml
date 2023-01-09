@@ -4,7 +4,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    command: /bin/bash
+    ports:
+        - 8080:8080
     volumes:
       - .:/app:cached
     tty: true
