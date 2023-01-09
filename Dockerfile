@@ -1,16 +1,22 @@
 FROM rust:slim
-
+WORKDIR /app
+COPY . ./
 RUN set -ex \
     && apt-get update \
     && apt-get install -y git curl ca-certificates pkg-config make unzip --no-install-recommends \
-    && curl -sL https://deb.nodesource.com/setup_16.x | bash - \
     && curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh \
     && apt-get update \
-    && apt-get install -y nodejs --no-install-recommends \
     && rustup target add wasm32-unknown-unknown \
     && cargo install cargo-generate trunk \
-    && npm cache verify \
     && mkdir /app
-
 ENV USER=root
-WORKDIR /app
+
+FROM node:18-slim
+WORKDIR /wasm-game-of-life/www
+COPY wasm-game-of-life/www/package*.json wasm-game-of-life/www/node_modules ./
+RUN npm install --legacy-peer-deps
+COPY /wasm-game-of-life/www .
+EXPOSE 8080
+ENV NODE_OPTIONS=--openssl-legacy-provider
+CMD ["npm", "run", "start"]
+
