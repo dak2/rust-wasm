@@ -1,3 +1,0 @@
-[submodule "wasm-game-of-life/web"]
-	path = wasm-game-of-life/web
-	url = https://github.com/rustwasm/create-wasm-app.git
